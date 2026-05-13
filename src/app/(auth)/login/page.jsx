@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage = () => {
   const { handleGoogleAuth, googleLoading } = useGoogleAuth();
@@ -100,7 +101,7 @@ const LoginPage = () => {
                 type="submit"
                 variant="outline"
                 // isLoading={isPending}
-                className="rounded-none w-full bg-sky-500 text-white"
+                className=" p-5 rounded-none w-full bg-sky-500 text-white"
               >
                 {loading ? (
                   "Logging..."
@@ -127,13 +128,13 @@ const LoginPage = () => {
               isDisabled={googleLoading}
               type="button"
               variant="outline"
-              className="border border-gray-300 rounded-none w-full bg-transparent p-2 font-semibold flex items-center gap-2 justify-center"
+              className=" p-5 border border-gray-300 rounded-none w-full bg-transparent p-2 font-semibold flex items-center gap-2 justify-center"
             >
               {googleLoading ? (
                 "Redirect to google..."
               ) : (
                 <>
-                  <FaGoogle /> Sign In with Google
+                  <FcGoogle /> Sign In with Google
                 </>
               )}
             </Button>

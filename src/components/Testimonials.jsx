@@ -1,5 +1,3 @@
-// import TestimonialsClient from "./TestimonialsClient";
-
 import TestimonialsClient from "./TestimonialsClient";
 
 const Testimonials = async () => {
@@ -8,9 +6,11 @@ const Testimonials = async () => {
     { cache: "no-store" }
   );
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch testimonials");
-  }
+  console.log(res);
+
+  // if (!res.ok) {
+  //   throw new Error("Failed to fetch testimonials");
+  // }
 
   const json = await res.json();
   const testimonials = json.data;

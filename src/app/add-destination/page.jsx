@@ -248,7 +248,7 @@ const AddDestinationPage = () => {
                 type="submit"
                 variant="outline"
                 // isLoading={isPending}
-                className="rounded-none w-full bg-cyan-500 text-white"
+                className="rounded-none w-full bg-cyan-500 text-white p-5"
               >
                 {/* {isPending ? "Adding Package..." : "Add Travel Package"} */}
                 Add Travel Package

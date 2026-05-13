@@ -7,7 +7,7 @@ import { Button, Card, Description, FieldError, Form, Input, Label, TextField } 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FaGoogle } from 'react-icons/fa6';
+import { FcGoogle } from 'react-icons/fc';
 
 const SignUpPage = () => {
     const [password, setPassword] = useState("");
@@ -174,7 +174,7 @@ const SignUpPage = () => {
                             <Button
                                 type="submit"
                                 isDisabled={loading}
-                                className="rounded-none bg-sky-500 text-white w-full"
+                                className=" p-5 rounded-none bg-sky-500 text-white w-full"
                             >
                                 {loading ? (
                                 "Registering..."
@@ -200,10 +200,10 @@ const SignUpPage = () => {
                         <Button
                             isDisabled={googleLoading}
                             type="button"
-                            className="border border-gray-300 rounded-none w-full bg-transparent p-2 font-semibold flex items-center gap-2 justify-center text-black"
+                            className=" p-5 border border-gray-300 rounded-none w-full bg-transparent p-2 font-semibold flex items-center gap-2 justify-center text-black"
                             onClick={handleGoogleAuth}
                         >
-                            {googleLoading ? "Redirect to google..." : <><FaGoogle />  SignUp with Google</>}
+                            {googleLoading ? "Redirect to google..." : <><FcGoogle />  SignUp with Google</>}
                         </Button>
 
                         <div className="mt-5 flex items-center gap-2 justify-center">

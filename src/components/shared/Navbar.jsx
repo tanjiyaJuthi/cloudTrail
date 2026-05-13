@@ -4,10 +4,12 @@ import { Link } from "@heroui/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { IoPersonOutline } from "react-icons/io5";
+import { authClient } from "@/app/lib/auth-client";
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { data: session } = authClient.useSession();
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
 
     const leftNavLinks = [
@@ -17,11 +19,21 @@ const Navbar = () => {
         { href: "/admin", label: "Admin" },
     ];
 
-    const rightNavLinks = [
-        { href: "/profile", label: (<><IoPersonOutline /> Profile</>) },
-        { href: "/login", label: "Login" },
-        { href: "/signup", label: "Sign Up"},
-    ];
+    const rightNavLinks = session?.user
+        ? [
+            {
+                href: `/profile/${session.user.slug}`,
+                label: (
+                    <>
+                        <IoPersonOutline /> Profile
+                    </>
+                ),
+            },
+        ]
+        : [
+            { href: "/login", label: "Login" },
+            { href: "/signup", label: "Sign Up" },
+        ];
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-white backdrop-blur-lg">
             <header className="relative flex h-16 items-center px-6">

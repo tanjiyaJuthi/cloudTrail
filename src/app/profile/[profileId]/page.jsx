@@ -1,3 +1,4 @@
+import { formatMonthYear } from '@/app/lib/helper/helper';
 import { Card } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +9,36 @@ import { FaEarthAsia } from 'react-icons/fa6';
 import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineArrowOutward } from 'react-icons/md';
 
-const ProfilePage = () => {
+const ProfileDetailsPage = async ({params}) => {
+    const {profileId} = await params;
+    // console.log(profileId);
+
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/${profileId}`,
+        { cache: "no-store" }
+    );
+    // console.log(res);
+    if (!res.ok) {
+        return (
+            <div className="text-center mt-10 text-red-500">
+                Failed to load profile
+            </div>
+        );
+    }
+    
+    const data = await res.json();
+    const profile = data?.data;
+
+    if (!profile) {
+        return (
+            <div className="text-center mt-10 text-red-500">
+                Profile not found
+            </div>
+        );
+    }
+
+    const {name, imageUrl, createdAt} = profile;
+
     return (
         <div className="my-bookings-wrapper px-5 lg:px-0 my-20">
             <div className="max-w-7xl mx-auto">
@@ -22,15 +52,17 @@ const ProfilePage = () => {
                         <Card.Header className="flex flex-col items-center justify-center">
                             <div className="w-25 h-25 rounded-full overflow-hidden">
                                 <Image
-                                    src="/fallback.jpg"
-                                    alt="Profile Photo"
+                                    src={imageUrl || "/fallback.jpg"}
+                                    alt={name ? `${name}'s profile picture` : "User profile picture"}
                                     width={100}
                                     height={100}
                                     className="w-full h-full object-cover"
+                                    loading="eager"
+                                    priority
                                 />
                             </div>
 
-                            <div className="text-xl text-black mt-2">Sarah Mitchel</div>
+                            <div className="text-xl text-black mt-2">{name || "Anonymous User"}</div>
 
                             <div className="flex gap-1 items-center justify-center mt-1 mb-2">
                                 <IoLocationOutline />
@@ -43,7 +75,7 @@ const ProfilePage = () => {
                         <Card.Content>
                             <div className="flex justify-between text-sm">
                                 <span className="text-slate-400">Member since</span>
-                                <span className="font-semibold text-slate-700">Mar 2024</span>
+                                <span className="font-semibold text-slate-700">{formatMonthYear(createdAt)}</span>
                             </div>
 
                             <div className="flex justify-between text-sm mt-2">
@@ -131,4 +163,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default ProfileDetailsPage;

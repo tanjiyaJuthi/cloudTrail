@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { generateSlug } from "./helper/helper";
 
 const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db('wanderlust');
@@ -14,6 +15,9 @@ export const auth = betterAuth({
             wanderLustRole: {
                 type: "string",
                 defaultValue: "user",
+            },
+            slug: {
+                type: "string",
             },
         },
     },
@@ -29,5 +33,19 @@ export const auth = betterAuth({
             clientId: googleId, 
             clientSecret: googleSecret,  
         }, 
+    },
+    databaseHooks: {
+        user: {
+            create: {
+                before: async (user) => {
+                    return {
+                        data: {
+                            ...user,
+                            slug: generateSlug(user.name),
+                        },
+                    };
+                },
+            },
+        },
     },
 });
