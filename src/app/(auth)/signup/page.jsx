@@ -2,7 +2,6 @@
 
 import { authClient } from '@/app/lib/auth-client';
 import { useGoogleAuth } from '@/app/lib/helper/utils-client';
-import { Check } from '@gravity-ui/icons';
 import { Button, Card, Description, FieldError, Form, Input, Label, TextField } from '@heroui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -43,7 +42,7 @@ const SignUpPage = () => {
                 return;
             }
 
-            console.log(data);
+            // console.log(data);
 
             router.push("/login");
 
@@ -180,8 +179,7 @@ const SignUpPage = () => {
                                 "Registering..."
                                 ) : (
                                 <>
-                                    {" "}
-                                    <Check /> Sign Up{" "}
+                                    Sign Up
                                 </>
                                 )}
                             </Button>
@@ -200,7 +198,7 @@ const SignUpPage = () => {
                         <Button
                             isDisabled={googleLoading}
                             type="button"
-                            className=" p-5 border border-gray-300 rounded-none w-full bg-transparent p-2 font-semibold flex items-center gap-2 justify-center text-black"
+                            className="p-5 border border-gray-300 rounded-none w-full bg-transparent font-semibold flex items-center gap-2 justify-center text-black"
                             onClick={handleGoogleAuth}
                         >
                             {googleLoading ? "Redirect to google..." : <><FcGoogle />  SignUp with Google</>}

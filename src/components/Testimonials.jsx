@@ -6,7 +6,7 @@ const Testimonials = async () => {
     { cache: "no-store" }
   );
 
-  console.log(res);
+  // console.log(res);
 
   // if (!res.ok) {
   //   throw new Error("Failed to fetch testimonials");
@@ -15,7 +15,7 @@ const Testimonials = async () => {
   const json = await res.json();
   const testimonials = json.data;
 
-  console.log(testimonials);
+  // console.log(testimonials);
 
   if (testimonials.length === 0) {
     return <p>No testimonials available</p>;

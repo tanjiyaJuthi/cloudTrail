@@ -1,16 +1,25 @@
 'use client'
 
-import { Link } from "@heroui/react";
+import { Button, Link } from "@heroui/react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { IoPersonOutline } from "react-icons/io5";
 import { authClient } from "@/app/lib/auth-client";
+import { Avatar } from '@heroui/react';
 
 const Navbar = () => {
-    const { data: session } = authClient.useSession();
+    const { data: session, isPending } = authClient.useSession();
+    const user = session?.user;
+    // console.log(user);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
+
+    if (isPending) return null;
+
+    const handleLogout = async () => {
+        await authClient.signOut();
+    };
 
     const leftNavLinks = [
         { href: "/", label: "Home" },
@@ -19,14 +28,21 @@ const Navbar = () => {
         { href: "/admin", label: "Admin" },
     ];
 
-    const rightNavLinks = session?.user
+    const rightNavLinks = user
         ? [
             {
-                href: `/profile/${session.user.slug}`,
+                href: `/profile/${user.slug}`,
                 label: (
-                    <>
-                        <IoPersonOutline /> Profile
-                    </>
+                    <Avatar>
+                        <Avatar.Image
+                            referrerPolicy="no-referrer"
+                            alt={user?.name}
+                            src={user?.image || "fallback.jpg"}
+                        />
+                        <Avatar.Fallback>
+                            {user?.name?.charAt(0)?.toUpperCase() || "?"}
+                        </Avatar.Fallback>
+                    </Avatar>
                 ),
             },
         ]
@@ -34,6 +50,7 @@ const Navbar = () => {
             { href: "/login", label: "Login" },
             { href: "/signup", label: "Sign Up" },
         ];
+
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-white backdrop-blur-lg">
             <header className="relative flex h-16 items-center px-6">
@@ -106,60 +123,72 @@ const Navbar = () => {
 
                 {/* Right Section */}
                 <div className="hidden flex-1 items-center justify-end gap-4 md:flex">
-                    {rightNavLinks.map((link) => {
-                        const isActive = pathname === link.href;
-
-                        return (
+                    {
+                        rightNavLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`no-underline flex items-center gap-1 ${
-                                    isActive
-                                        ? "font-medium text-sky-500"
-                                        : "text-gray-700"
-                                }`}
+                                className="no-underline flex items-center gap-1 text-gray-700"
                             >
                                 {link.label}
                             </Link>
-                        );
-                    })}
+                        ))
+                    }
+
+                    { 
+                        user && (
+                            <Button
+                                onClick={handleLogout}
+                                className="rounded-none text-white hover:text-white transition"
+                            >
+                                Logout
+                            </Button>
+                        )
+                    }
                 </div>
             </header>
 
             {/* Mobile Menu */}
-            {isMenuOpen && (
+            { isMenuOpen && (
                 <div className="border-t border-separator md:hidden">
                     <ul className="flex flex-col gap-4 p-4">
 
-                        {leftNavLinks.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    className="no-underline"
-                                >
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-
-                        <div className="flex flex-col gap-3">
-                            {rightNavLinks.map((link) => {
-                                const isActive = pathname === link.href;
-
-                                return (
+                        {
+                            leftNavLinks.map((link) => (
+                                <li key={link.href}>
                                     <Link
-                                        key={link.href}
                                         href={link.href}
-                                        className={`no-underline flex items-center gap-1 ${
-                                            isActive
-                                                ? "font-medium text-sky-500"
-                                                : "text-gray-700"
-                                        }`}
+                                        className="no-underline"
                                     >
                                         {link.label}
                                     </Link>
-                                );
-                            })}
+                                </li>
+                            ))
+                        }
+
+                        <div className="flex flex-col gap-3">
+                            {
+                                rightNavLinks.map((link) => (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className="no-underline flex items-center gap-1 text-gray-700"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))
+                            }
+
+                            { 
+                                user && (
+                                    <button
+                                        onClick={handleLogout}
+                                        className="no-underline gap-1 bg-sky-500 text-white transition p-2 inline w-1/5"
+                                    >
+                                        Logout
+                                    </button>
+                                )
+                            }
                         </div>
                     </ul>
                 </div>

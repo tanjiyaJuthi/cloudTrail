@@ -1,16 +1,13 @@
 import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { CiEdit } from "react-icons/ci";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import Image from "next/image";
-import { Button, Card } from "@heroui/react";
-import { FaArrowRight } from "react-icons/fa6";
-import { PiArrowElbowRight } from "react-icons/pi";
+import { FaCheck } from "react-icons/fa6";
 import { GoLocation } from "react-icons/go";
 import { SlCalender } from "react-icons/sl";
 import { FaStar } from "react-icons/fa";
 import EditDestinationModal from "@/components/shared/EditDestinationModal";
 import DeleteDestinationModal from "@/components/shared/DeleteDestinationModal";
+import BookingCard from "@/components/shared/BookingCard";
 
 const DestinationDetailsPage = async ({params}) => {
     const {destinationName} = await params;
@@ -77,7 +74,6 @@ const DestinationDetailsPage = async ({params}) => {
                     <div className="mt-10 border-t-2 border-gray-100"></div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-                        {/* LEFT SIDE (2/3) */}
                         <div className="left-side-wrapper space-y-10 md:col-span-2">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-1 text-gray-600 mb-2">
@@ -116,52 +112,19 @@ const DestinationDetailsPage = async ({params}) => {
                                 
                                 <ul>
                                     <li className="flex gap-2 items-center">
-                                        <PiArrowElbowRight />Luxury beachfront accommodation
+                                        <FaCheck />Luxury beachfront accommodation
                                     </li>
                                     <li className="flex gap-2 items-center">
-                                        <PiArrowElbowRight />Traditional Balinese spa treatment
+                                        <FaCheck />Traditional Balinese spa treatment
                                     </li>
                                     <li className="flex gap-2 items-center">
-                                        <PiArrowElbowRight />Sunrise trek to Mount Batur
+                                        <FaCheck />Sunrise trek to Mount Batur
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
-                        {/* RIGHT SIDE (1/3) */}
-                        <Card className="rounded-none md:col-span-1">
-                            <Card.Content>
-                            <div>
-                                <p className="text-gray-400">Starting from</p>
-                                <p className="text-3xl font-bold text-sky-500">
-                                ${destination.price}
-                                </p>
-                                <p className="text-gray-400">per person</p>
-                            </div>
-
-                            <div className="mt-12 bg-gray-100 border border-gray-200 p-3">
-                                {destination.departureDate}
-                            </div>
-
-                            <div className="mt-3 border-t-2 border-gray-100"></div>
-
-                            <div className="mt-3 flex items-center justify-center gap-2 p-3 bg-sky-500 text-white cursor-pointer hover:bg-sky-600 transition">
-                                Book Now <FaArrowRight />
-                            </div>
-
-                            <ul className="mt-4 text-gray-600">
-                                <li className="flex gap-2 items-center">
-                                    <PiArrowElbowRight /> Free cancellation up to 7 days
-                                </li>
-                                <li className="flex gap-2 items-center">
-                                    <PiArrowElbowRight /> Travel insurance included
-                                </li>
-                                <li className="flex gap-2 items-center">
-                                    <PiArrowElbowRight /> 24/7 customer support
-                                </li>
-                            </ul>
-                            </Card.Content>
-                        </Card>
+                        <BookingCard destination={destination} />
                     </div>
                 </div>
             </div>
