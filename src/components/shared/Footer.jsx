@@ -57,15 +57,13 @@ const Footer = () => {
             <h3 className="text-white mb-3 tracking-wide">CONTACT US</h3>
             <ul className="space-y-2">
               <li>786 901 1622</li>
-              <li>info@wandarland.com</li>
+              <li>info@cloudTrail.com</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">
-            © 2026 Wanderlust. All rights reserved.
-          </p>
+          <p className="text-sm">© 2026 CloudTrail. All rights reserved.</p>
 
           <div className="flex gap-5 mt-4 md:mt-0 text-white text-lg">
             <span className="cursor-pointer">X</span>
