@@ -12,10 +12,11 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const AddDestinationPage = () => {
-    const router = useRouter();
+    // const router = useRouter();
 
     const addDestinationPackage = async (e) => {
         e.preventDefault();
@@ -40,8 +41,10 @@ const AddDestinationPage = () => {
             if (!res.ok) {
                 throw new Error(data?.message || "Failed to add destination");
             }
-            router.replace(`/destinations`);
-            router.refresh();
+            // router.replace(`/destinations`);
+            // router.refresh();
+
+            redirect("/destinations");
 
         } catch (error) {
             console.error("Add destination error:", error.message);

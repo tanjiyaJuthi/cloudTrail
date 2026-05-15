@@ -1,11 +1,12 @@
 'use client'
 
 import { Button, Link } from "@heroui/react";
+import { Avatar } from '@heroui/react';
+
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { IoPersonOutline } from "react-icons/io5";
+
 import { authClient } from "@/app/lib/auth-client";
-import { Avatar } from '@heroui/react';
 
 const Navbar = () => {
     const { data: session, isPending } = authClient.useSession();
@@ -24,9 +25,29 @@ const Navbar = () => {
     const leftNavLinks = [
         { href: "/", label: "Home" },
         { href: "/destinations", label: "Destinations" },
-        { href: "/my-bookings", label: "My Bookings" },
-        { href: "/admin", label: "Admin" },
-    ];
+
+        ...(user
+            ? [
+                {
+                    href: "/my-bookings",
+                    label: "My Bookings",
+                },
+              ]
+            : []),
+
+        ...(user?.role === "admin"
+            ? [
+                  {
+                      href: "/admin",
+                      label: "Admin",
+                  },
+                  {
+                      href: "/add-destinations",
+                      label: "Add Destination",
+                  },
+              ]
+            : []),
+        ];
 
     const rightNavLinks = user
         ? [
