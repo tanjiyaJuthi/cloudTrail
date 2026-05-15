@@ -7,7 +7,6 @@ const adminRoutes = [
     "/add-destinations"
 ];
 
-
 export async function proxy(request) {
     const session = await auth.api.getSession({
             headers: await headers(),
@@ -26,11 +25,11 @@ export async function proxy(request) {
         pathname.startsWith(route)
     );
 
-    const isProfileRoute = pathname.startsWith("/profile");
+    const isProfileRoute = pathname.startsWith("/profile/");
 
     if (isAdminRoute && role !== "admin") {
         return NextResponse.redirect(
-            new URL("/login", request.url)
+            new URL("/", request.url)
         );
     }
 
@@ -38,10 +37,10 @@ export async function proxy(request) {
 
     if (
         isProfileRoute  &&
-        !canAccessProfile
+        canAccessProfile
     ) {
         return NextResponse.redirect(
-            new URL("/login", request.url)
+            new URL("/", request.url)
         );
     }
 

@@ -4,7 +4,7 @@ import { Button, Link } from "@heroui/react";
 import { Avatar } from '@heroui/react';
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 import { authClient } from "@/app/lib/auth-client";
 
@@ -20,6 +20,8 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         await authClient.signOut();
+        
+        redirect('/login');
     };
 
     const leftNavLinks = [
