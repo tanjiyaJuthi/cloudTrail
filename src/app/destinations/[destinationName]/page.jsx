@@ -7,21 +7,47 @@ import { SlCalender } from "react-icons/sl";
 import { FaStar } from "react-icons/fa";
 import EditDestinationModal from "@/components/shared/EditDestinationModal";
 import DeleteDestinationModal from "@/components/shared/DeleteDestinationModal";
-import BookingCard from "@/components/shared/BookingCard";
+import DestinationBookingCard from "@/components/shared/DestinationBookingCard";
+import { headers } from "next/headers";
+import { auth } from "@/app/lib/auth";
 
 const DestinationDetailsPage = async ({params}) => {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    const user = session?.user;
     const {destinationName} = await params;
-    console.log(destinationName);
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${destinationName}`,
-        { cache: "no-store" }
+        { cache: "no-store" },
     );
+    // console.log(res);
 
     if (!res.ok) {
         return (
-            <div className="text-center mt-10 text-red-500">
-                Failed to load destination
+            <div className="max-w-7xl mx-auto my-20 w-full px-5 lg:px-0">
+                <div className="w-full py-12 px-6 bg-sky-50 text-center rounded-none shadow-sm">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4 mx-auto">
+                        <svg
+                            className="w-10 h-10 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 13h6m2 8H7a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z"
+                            />
+                        </svg>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-gray-700">
+                        Failed to load destinations
+                    </h3>
+                </div>
             </div>
         );
     }
@@ -31,8 +57,28 @@ const DestinationDetailsPage = async ({params}) => {
 
     if (!destination) {
         return (
-            <div className="text-center mt-10 text-red-500">
-                Destination not found
+            <div className="max-w-7xl mx-auto my-20 w-full px-5 lg:px-0">
+                <div className="w-full py-12 px-6 bg-sky-50 text-center rounded-none shadow-sm">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4 mx-auto">
+                        <svg
+                            className="w-10 h-10 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 13h6m2 8H7a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z"
+                            />
+                        </svg>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-gray-700">
+                        Destination not found!
+                    </h3>
+                </div>
             </div>
         );
     }
@@ -50,16 +96,19 @@ const DestinationDetailsPage = async ({params}) => {
                         Back to Destinations
                     </Link>
 
-                    <div className="flex gap-5 items-center">
-                        <EditDestinationModal destination={destination} />
+                    {user?.wanderLustRole === "admin" && (
+                        <div className="flex gap-5 items-center">
+                            <EditDestinationModal destination={destination} />
 
-                        <DeleteDestinationModal destination={destination} />
-                    </div>
+                            <DeleteDestinationModal destination={destination} />
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-6">
                     <div className="relative w-full h-[50vh] overflow-hidden">
                         <Image
+                            loading="eager"
                             src={
                                 destination?.imageUrl?.trim()
                                     ? destination.imageUrl
@@ -124,7 +173,7 @@ const DestinationDetailsPage = async ({params}) => {
                             </div>
                         </div>
 
-                        <BookingCard destination={destination} />
+                        <DestinationBookingCard destination={destination} />
                     </div>
                 </div>
             </div>

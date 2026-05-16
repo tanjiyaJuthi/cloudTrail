@@ -20,6 +20,7 @@ const DestinationCard = ({destination, className = "" }) => {
                             }
                             alt="Bali Paradise"
                             fill
+                            sizes="(max-width: 768px) 100vw, 300px"
                             className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                         />
                     </div>

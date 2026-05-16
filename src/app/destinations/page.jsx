@@ -1,11 +1,20 @@
 import DestinationCard from '@/components/shared/DestinationCard';
 import Link from 'next/link';
 import { IoMdAdd } from "react-icons/io";
+import { auth } from '../lib/auth.js';
+import { headers } from 'next/headers.js';
 
 const DestinationsPage = async () => {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    const user = session?.user;
+
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,
-        { cache: "no-store" }
+        {
+            cache: "no-store"
+        }
     );
 
     const destinations = await res.json();
@@ -19,12 +28,15 @@ const DestinationsPage = async () => {
                         <p className="text-gray-500">Find your perfect travel experience from our curated collection</p>
                     </div>
 
-                    <Link 
-                        className="bg-sky-500 rounded-none border border-sky-500 text-white px-3 py-2 flex gap-2 items-center"
-                        href="/add-destination"
-                    >
-                        <IoMdAdd /> Add Destination
-                    </Link>
+                    {user?.wanderLustRole === "admin" && (
+                        <Link
+                            className="bg-sky-500 rounded-none border border-sky-500 text-white px-3 py-2 flex gap-2 items-center"
+                            href="/add-destination"
+                        >
+                            <IoMdAdd />
+                            Add Destination
+                        </Link>
+                    )}
                 </div>
 
                 <div className="mt-10 space-y-4">

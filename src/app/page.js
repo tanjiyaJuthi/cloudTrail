@@ -1,5 +1,5 @@
 import Banner from "@/components/Banner";
-import FeaturedDestinations from '@/components/FeaturedDestinations';
+import FeaturedDestination from '@/components/FeaturedDestination';
 import StartJourney from "@/components/StartJourney";
 import Testimonials from "@/components/Testimonials";
 import WhyChoose from "@/components/WhyChoose";
@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <Banner />
-      <FeaturedDestinations />
+      <FeaturedDestination />
       <WhyChoose />
       <Testimonials />
       <StartJourney />

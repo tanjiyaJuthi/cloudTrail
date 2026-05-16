@@ -12,11 +12,11 @@ import {
   TextArea,
   TextField,
 } from "@heroui/react";
-import { redirect } from "next/navigation";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { authClient } from "../lib/auth-client";
 
 const AddDestinationPage = () => {
-    // const router = useRouter();
+    const router = useRouter();
 
     const addDestinationPackage = async (e) => {
         e.preventDefault();
@@ -25,26 +25,29 @@ const AddDestinationPage = () => {
             const formData = new FormData(e.currentTarget);
             const destination = Object.fromEntries(formData.entries());
 
+            const {data: tokenData} = await authClient.token();
+            // console.log(tokenData?.token);
+
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${tokenData?.token}`
                     },
                     body: JSON.stringify(destination),
                 }
             );
-
+            // console.log(await res.text());
             const data = await res.json();
 
             if (!res.ok) {
                 throw new Error(data?.message || "Failed to add destination");
             }
-            // router.replace(`/destinations`);
-            // router.refresh();
 
-            redirect("/destinations");
+            router.replace(`/destinations`);
+            router.refresh();
 
         } catch (error) {
             console.error("Add destination error:", error.message);

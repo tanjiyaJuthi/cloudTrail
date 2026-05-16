@@ -7,7 +7,7 @@ import { authClient } from "@/app/lib/auth-client";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
-const BookingCard = ({ destination }) => {
+const DestinationBookingCard = ({ destination }) => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
 
@@ -197,4 +197,4 @@ const BookingCard = ({ destination }) => {
     );
 };
 
-export default BookingCard;
+export default DestinationBookingCard;

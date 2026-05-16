@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import DestinationCard from "./shared/DestinationCard";
 
-const FeaturedDestinations = () => {
+const FeaturedDestination = () => {
   const containerRef = useRef(null);
 
   const [destinations, setDestinations] = useState([]);
@@ -16,10 +16,8 @@ const FeaturedDestinations = () => {
   useEffect(() => {
     const fetchFeaturedDestinations = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/featured-destinations`,
-        );
-
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/featured-destination`);
+        
         const data = await res.json();
 
         if (data.success) {
@@ -131,4 +129,4 @@ const FeaturedDestinations = () => {
   );
 };
 
-export default FeaturedDestinations;
+export default FeaturedDestination;

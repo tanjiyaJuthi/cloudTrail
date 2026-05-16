@@ -18,6 +18,7 @@ import {
 import { CiEdit } from "react-icons/ci";
 import { LuSave } from "react-icons/lu";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { authClient } from "@/app/lib/auth-client";
 
 const EditDestinationModal = ({ destination }) => {
   const router = useRouter();
@@ -30,6 +31,13 @@ const EditDestinationModal = ({ destination }) => {
       const formData = new FormData(e.currentTarget);
 
       const updatedDestination = Object.fromEntries(formData.entries());
+      updatedDestination.price = Number(updatedDestination.price);
+      updatedDestination.rating = Number(updatedDestination.rating);
+      updatedDestination.reviewCount = Number(updatedDestination.reviewCount);
+
+      const { tokenData } = await authClient.getSession();
+      const token = tokenData?.token;
+      console.log(token);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${destination._id}`,
@@ -37,6 +45,7 @@ const EditDestinationModal = ({ destination }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(updatedDestination),
         },
@@ -222,24 +231,7 @@ const EditDestinationModal = ({ destination }) => {
                       <FieldError />
                     </TextField>
 
-                    {/* Departure Date */}
-                    <div className="md:col-span-2">
-                      <TextField
-                        defaultValue={destination.departureDate}
-                        name="departureDate"
-                        type="date"
-                        isRequired
-                      >
-                        <Label>Departure Date</Label>
-                        <Input
-                          type="date"
-                          className="rounded-none bg-sky-50 shadow-none"
-                        />
-                        <FieldError />
-                      </TextField>
-                    </div>
-
-                    {/* Image URL - Removed preview */}
+                    {/* Image URL */}
                     <div className="md:col-span-2">
                       <TextField
                         defaultValue={destination.imageUrl}
@@ -301,7 +293,6 @@ const EditDestinationModal = ({ destination }) => {
                         <TextArea
                           placeholder="Describe the travel experience..."
                           className="rounded-none bg-sky-50"
-                          name="description"
                         />
                         <FieldError />
                       </TextField>

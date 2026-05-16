@@ -2,7 +2,7 @@ import TestimonialsClient from "./TestimonialsClient";
 
 const Testimonials = async () => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/testimonials`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/testimonial`,
     { cache: "no-store" }
   );
 
@@ -15,7 +15,7 @@ const Testimonials = async () => {
   const json = await res.json();
   const testimonials = json.data;
 
-  // console.log(testimonials);
+  // console.log(res);
 
   if (testimonials.length === 0) {
     return <p>No testimonials available</p>;

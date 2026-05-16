@@ -32,7 +32,7 @@ const TestimonialsClient = ({ testimonials }) => {
   };
 
   return (
-    <div className="featured-destinations-wrapper px-5 lg:px-0">
+    <div className="testimonial-client-wrapper px-5 lg:px-0">
       <div className="max-w-7xl mx-auto mt-20">
 
         {/* Header */}

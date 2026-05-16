@@ -1,5 +1,7 @@
+import { auth } from '@/app/lib/auth';
 import { formatMonthYear } from '@/app/lib/helper/helper';
 import { Card } from '@heroui/react';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -11,17 +13,46 @@ import { MdOutlineArrowOutward } from 'react-icons/md';
 
 const ProfileDetailsPage = async ({params}) => {
     const {profileId} = await params;
-    // console.log(profileId);
+    const {token} = await auth.api.getToken({
+        headers: await headers(),
+    });
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/${profileId}`,
-        { cache: "no-store" }
+        {
+            cache: "no-store",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        }
     );
-    // console.log(res);
+
+    // console.log(token, res.status, await res.text());
+    
     if (!res.ok) {
         return (
-            <div className="text-center mt-10 text-red-500">
-                Failed to load profile
+            <div className="w-full my-20 ">
+                <div className="max-w-7xl bg-sky-50 mx-auto py-12 px-6 text-center shadow-sm">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4 mx-auto">
+                        <svg
+                            className="w-10 h-10 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 13h6m2 8H7a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z"
+                            />
+                        </svg>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-gray-700">
+                        Failed to load data
+                    </h3>
+                </div>
             </div>
         );
     }

@@ -1,3 +1,5 @@
+"use client";
+
 import { CircleDollar } from '@gravity-ui/icons';
 import {Card, Link} from "@heroui/react";
 import { MdOutlineHealthAndSafety } from "react-icons/md";

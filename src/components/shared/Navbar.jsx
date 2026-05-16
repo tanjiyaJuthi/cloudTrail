@@ -1,27 +1,34 @@
 'use client'
 
-import { Button, Link } from "@heroui/react";
-import { Avatar } from '@heroui/react';
+import { Button, Link, Avatar } from '@heroui/react';
 
-import { useState } from "react";
-import { redirect, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import { authClient } from "@/app/lib/auth-client";
 
 const Navbar = () => {
     const { data: session, isPending } = authClient.useSession();
-    const user = session?.user;
-    // console.log(user);
+
+    const router = useRouter();
+
+    const [mounted, setMounted] = useState(false);
+    
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
 
-    if (isPending) return null;
+    if (!mounted || isPending) return null;
+
+    const user = session?.user;
 
     const handleLogout = async () => {
         await authClient.signOut();
         
-        redirect('/login');
+        router.push('/login');
     };
 
     const leftNavLinks = [
