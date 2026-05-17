@@ -15,7 +15,9 @@ const MyBookingsPage = async () => {
         redirect("/login");
     }
 
-    const {token} = session?.session?.token;
+    const {token} = await auth.api.getToken({
+        headers: await headers(),
+    });
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
@@ -26,6 +28,8 @@ const MyBookingsPage = async () => {
             },
         }
     );
+
+    console.log(res);
 
     const result = await res.json();
     const bookings = result.data;

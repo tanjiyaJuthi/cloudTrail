@@ -10,6 +10,7 @@ import DeleteDestinationModal from "@/components/shared/DeleteDestinationModal";
 import DestinationBookingCard from "@/components/shared/DestinationBookingCard";
 import { headers } from "next/headers";
 import { auth } from "@/app/lib/auth";
+import SafeImage from "@/components/shared/SafeImage";
 
 const DestinationDetailsPage = async ({params}) => {
     const session = await auth.api.getSession({
@@ -107,14 +108,9 @@ const DestinationDetailsPage = async ({params}) => {
 
                 <div className="mt-6">
                     <div className="relative w-full h-[50vh] overflow-hidden">
-                        <Image
-                            loading="eager"
-                            src={
-                                destination?.imageUrl?.trim()
-                                    ? destination.imageUrl
-                                    : "/fallback.jpg"
-                            }
-                            alt={destination.destinationName || "Destination"}
+                        <SafeImage
+                            src={destination?.imageUrl}
+                            alt={destination?.destinationName || "Destination"}
                             fill
                             className="object-cover"
                         />

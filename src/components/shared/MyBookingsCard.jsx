@@ -5,6 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { SlCalender, SlEye } from "react-icons/sl";
 import { TbBrandBooking } from "react-icons/tb";
 import DeleteBookingModal from "./DeleteBookingModal";
+import SafeImage from "./SafeImage";
 
 const MyBookingsCard = ({ booking }) => {
     const {
@@ -27,13 +28,13 @@ const MyBookingsCard = ({ booking }) => {
 
     return (
         <div className="card-wrapper">
-            <div className="border border-gray-200 p-5 mb-10 bg-white transition-all duration-300 card-hover group flex gap-4">
-                <div className="relative w-[30vw] h-[30vh] shrink-0 overflow-hidden">
-                    <Image
-                        src={destinationImageUrl || "/fallback.jpg"}
+            <div className="border border-gray-200 p-5 mb-10 bg-white transition-all duration-300 card-hover group flex flex-col lg:flex-row gap-4">
+                <div className="relative  w-full lg:w-[30vw] h-[30vh] shrink-0 overflow-hidden">
+                    <SafeImage
+                        src={destinationImageUrl}
                         alt={destinationName || "Booking image"}
-                        fill
-                        className="object-cover"
+                        className="object-cover w-full"
+                        sizes="(max-width: 768px) 100vw, 500px"
                     />
                 </div>
 

@@ -5,6 +5,7 @@ import { GoLocation } from "react-icons/go";
 import { SlCalender } from "react-icons/sl";
 import { MdOutlineArrowOutward } from "react-icons/md";
 import { Button } from '@heroui/react';
+import SafeImage from './SafeImage';
 
 const DestinationCard = ({destination, className = "" }) => {
     return (
@@ -12,15 +13,9 @@ const DestinationCard = ({destination, className = "" }) => {
             <div className="bg-white transition-all duration-300 card-hover group flex flex-col">
                 <div className="relative aspect-4/3 overflow-hidden">
                     <div className="relative w-full h-full overflow-hidden">
-                        <Image
-                            loading="eager"
-                            src={
-                                destination?.imageUrl?.trim()
-                                    ? destination.imageUrl
-                                    : "/fallback.jpg"
-                            }
-                            alt="Bali Paradise"
-                            fill
+                        <SafeImage
+                            src={destination?.imageUrl}
+                            alt={destination?.destinationName || "Destination image"}
                             sizes="(max-width: 768px) 100vw, 300px"
                             className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                         />

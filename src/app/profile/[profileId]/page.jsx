@@ -1,5 +1,6 @@
 import { auth } from '@/app/lib/auth';
 import { formatMonthYear } from '@/app/lib/helper/helper';
+import SafeImage from '@/components/shared/SafeImage';
 import { Card } from '@heroui/react';
 import { headers } from 'next/headers';
 import Image from 'next/image';
@@ -82,14 +83,10 @@ const ProfileDetailsPage = async ({params}) => {
                     <Card className="col-span-1 rounded-none">
                         <Card.Header className="flex flex-col items-center justify-center">
                             <div className="w-25 h-25 rounded-full overflow-hidden">
-                                <Image
-                                    src={imageUrl || "/fallback.jpg"}
+                                <SafeImage
+                                    src={imageUrl}
                                     alt={name ? `${name}'s profile picture` : "User profile picture"}
-                                    width={100}
-                                    height={100}
                                     className="w-full h-full object-cover"
-                                    loading="eager"
-                                    priority
                                 />
                             </div>
 
