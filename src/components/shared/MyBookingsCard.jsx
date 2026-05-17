@@ -77,7 +77,7 @@ const MyBookingsCard = ({ booking }) => {
                                 View
                             </Link>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>

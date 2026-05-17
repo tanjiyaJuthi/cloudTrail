@@ -1,6 +1,5 @@
 import { auth } from '@/app/lib/auth';
 import { formatMonthYear } from '@/app/lib/helper/helper';
-import SafeImage from '@/components/shared/SafeImage';
 import { Card } from '@heroui/react';
 import { headers } from 'next/headers';
 import Image from 'next/image';
@@ -12,14 +11,13 @@ import { FaEarthAsia } from 'react-icons/fa6';
 import { IoLocationOutline } from 'react-icons/io5';
 import { MdOutlineArrowOutward } from 'react-icons/md';
 
-const ProfileDetailsPage = async ({params}) => {
-    const {profileId} = await params;
+const ProfileDetailsPage = async ({}) => {
     const {token} = await auth.api.getToken({
         headers: await headers(),
     });
 
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/${profileId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/profile/me`,
         {
             cache: "no-store",
             headers: {
@@ -28,11 +26,13 @@ const ProfileDetailsPage = async ({params}) => {
         }
     );
 
+    console.log(res);
+
     // console.log(token, res.status, await res.text());
     
     if (!res.ok) {
         return (
-            <div className="w-full my-20 ">
+            <div className="w-full my-20 px-5 lg:px-0">
                 <div className="max-w-7xl bg-sky-50 mx-auto py-12 px-6 text-center shadow-sm">
                     <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4 mx-auto">
                         <svg
@@ -63,8 +63,28 @@ const ProfileDetailsPage = async ({params}) => {
 
     if (!profile) {
         return (
-            <div className="text-center mt-10 text-red-500">
-                Profile not found
+            <div className="w-full my-20 px-5 lg:px-0">
+                <div className="max-w-7xl bg-sky-50 mx-auto py-12 px-6 text-center shadow-sm">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 mb-4 mx-auto">
+                        <svg
+                            className="w-10 h-10 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 13h6m2 8H7a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z"
+                            />
+                        </svg>
+                    </div>
+
+                    <h3 className="text-2xl font-semibold text-gray-700">
+                        Profile not found
+                    </h3>
+                </div>
             </div>
         );
     }
@@ -83,10 +103,13 @@ const ProfileDetailsPage = async ({params}) => {
                     <Card className="col-span-1 rounded-none">
                         <Card.Header className="flex flex-col items-center justify-center">
                             <div className="w-25 h-25 rounded-full overflow-hidden">
-                                <SafeImage
-                                    src={imageUrl}
+                                <Image
+                                    src={imageUrl || '/fallback.jpg'}
+                                    width={100}
+                                    height={100}
                                     alt={name ? `${name}'s profile picture` : "User profile picture"}
                                     className="w-full h-full object-cover"
+                                    priority
                                 />
                             </div>
 

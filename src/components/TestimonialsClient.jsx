@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
+import SafeImage from "./shared/SafeImage";
+import Image from "next/image";
 
 const TestimonialsClient = ({ testimonials }) => {
   const totalSlides = testimonials.length;
@@ -80,10 +81,10 @@ const TestimonialsClient = ({ testimonials }) => {
 
               <div className="w-56 h-64">
                 <Image
-                  src={testimonial.imageUrl || "/fallback.jpg"}
+                  width={100}
+                  height={100}
+                  src={testimonial?.imageUrl || 'fallback.jpg'}
                   alt={testimonial.name}
-                  width={300}
-                  height={300}
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -61,7 +61,7 @@ const Navbar = () => {
     const rightNavLinks = user
         ? [
             {
-                href: `/profile/${user.slug}`,
+                href: `/profile/me`,
                 label: (
                     <Avatar>
                         <Avatar.Image

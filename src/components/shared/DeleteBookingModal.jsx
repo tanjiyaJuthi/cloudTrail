@@ -6,15 +6,19 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoWarningOutline } from "react-icons/io5";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/app/lib/auth-client";
 
 const DeleteBookingModal = ({booking}) => {
     const router = useRouter();
 
     const handleDelete = async () => {
+        const { data:tokenData } = await authClient.token();
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${booking._id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'applications/json'
+                'Content-Type': 'applications/json',
+                 Authorization: `Bearer ${tokenData?.token}`
             }
         });
 
