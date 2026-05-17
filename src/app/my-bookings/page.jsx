@@ -2,6 +2,7 @@ import { auth } from "@/app/lib/auth";
 import MyBookingsCard from "@/components/shared/MyBookingsCard";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { authClient } from "../lib/auth-client";
 
 const MyBookingsPage = async () => {
     const session = await auth.api.getSession({
@@ -14,10 +15,15 @@ const MyBookingsPage = async () => {
         redirect("/login");
     }
 
+    const {token} = session?.session?.token;
+
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${user?.id}`,
         {
             cache: "no-store",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
         }
     );
 

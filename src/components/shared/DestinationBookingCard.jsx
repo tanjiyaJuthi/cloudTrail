@@ -28,11 +28,21 @@ const DestinationBookingCard = ({ destination }) => {
 
     useEffect(() => {
         const checkBooking = async () => {
-            if (!user) return;
+            if (!user) {
+                setLoading(false);
+                return;
+            }
 
             try {
+                const {data: tokenData} = await authClient.token();
+
                 const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/check?userId=${user.id}&destinationId=${_id}`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/check?userId=${_id}&destinationId=${_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${tokenData?.token}`
+                        }
+                    }
                 );
 
                 const data = await res.json();
@@ -49,18 +59,18 @@ const DestinationBookingCard = ({ destination }) => {
         };
 
         checkBooking();
-    }, [user, _id]);
+    }, [user, session, _id]);
 
     const handleBooking = async () => {
         if (booked) return;
 
         if (!user) {
-            alert("Please login first");
+            toast.error("Please login first");
             return;
         }
 
         if (!departureDate) {
-            alert("Please select a departure date");
+            toast.error("Please select a departure date");
             return;
         }
 
@@ -73,22 +83,28 @@ const DestinationBookingCard = ({ destination }) => {
             destinationName,
             destinationImageUrl: imageUrl,
             destinationCountry: country,
-            departureDate: new Date(departureDate).toISOString(),
+            departureDate: departureDate.toDate("UTC").toISOString(),
             memberNumber: personCount || 1,
             totalPrice: price * personCount,
         };
 
         try {
+            const {data: tokenData} = await authClient.token();
+
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URL}/booking`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        Authorization: `Bearer ${tokenData?.token}`
+
                     },
                     body: JSON.stringify(bookingData),
                 }
             );
+
+            // console.log(token, res);
 
             const data = await res.json();
 
