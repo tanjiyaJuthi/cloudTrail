@@ -55,7 +55,7 @@ const Banner = () => {
 
 
 
-        <div className="bg-cyan-500 py-2 px-4">
+        <div className="bg-sky-500 py-2 px-4">
           <h3>Search</h3>
         </div>
       </div>

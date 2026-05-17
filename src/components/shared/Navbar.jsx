@@ -169,7 +169,7 @@ const Navbar = () => {
                         user && (
                             <Button
                                 onClick={handleLogout}
-                                className="rounded-none text-white hover:text-white transition"
+                                className="rounded-none text-white bg-sky-500 hover:text-white transition"
                             >
                                 Logout
                             </Button>
