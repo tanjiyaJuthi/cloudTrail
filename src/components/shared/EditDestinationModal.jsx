@@ -35,9 +35,7 @@ const EditDestinationModal = ({ destination }) => {
       updatedDestination.rating = Number(updatedDestination.rating);
       updatedDestination.reviewCount = Number(updatedDestination.reviewCount);
 
-      const { tokenData } = await authClient.getSession();
-      const token = tokenData?.token;
-      console.log(token);
+      const { data:tokenData } = await authClient.token();
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${destination._id}`,
@@ -45,7 +43,7 @@ const EditDestinationModal = ({ destination }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${tokenData?.token}`
           },
           body: JSON.stringify(updatedDestination),
         },

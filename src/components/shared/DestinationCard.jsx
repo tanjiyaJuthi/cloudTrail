@@ -13,6 +13,7 @@ const DestinationCard = ({destination, className = "" }) => {
                 <div className="relative aspect-4/3 overflow-hidden">
                     <div className="relative w-full h-full overflow-hidden">
                         <Image
+                            loading="eager"
                             src={
                                 destination?.imageUrl?.trim()
                                     ? destination.imageUrl
